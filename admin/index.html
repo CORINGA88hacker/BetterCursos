@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel Admin</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="menu">
+        <button class="active">🏠 Dashboard</button>
+        <button onclick="logout()">🚪 Logout</button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="header">
+        <h1>Admin Dashboard</h1>
+        <div class="user-icon">👤</div>
+      </header>
+
+      <section class="cards">
+        <div class="card"> <p>Usuários</p><h2 id="total-users">0</h2> </div>
+        <div class="card"> <p>Cursos</p><h2 id="total-courses">0</h2> </div>
+        <div class="card"> <p>Matrículas</p><h2 id="total-enrollments">0</h2> </div>
+        <div class="card"> <p>Ganhos</p><h2 id="earnings">R$0</h2> </div>
+      </section>
+
+      <section class="chart-section">
+        <h2>Visão Geral</h2>
+        <canvas id="chart"></canvas>
+      </section>
+
+      <section class="tables">
+        <div class="table-container">
+          <h2>Últimos Usuários</h2>
+          <ul id="user-list"></ul>
+        </div>
+        <div class="table-container">
+          <h2>Cursos Recentes</h2>
+          <ul id="course-list"></ul>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script type="module">
+    import { auth, database } from '../firebase.js';
+    import { signOut, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js';
+    import { ref, onValue } from 'https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js';
+
+    const usersRef = ref(database, 'usuarios');
+    const coursesRef = ref(database, 'cursos');
+    const enrollRef = ref(database, 'matriculas');
+
+    function logout() {
+      signOut(auth).then(() => {
+        location.href = '../login.html';
+      });
+    }
+    window.logout = logout;
+
+    onAuthStateChanged(auth, user => {
+      if (!user) {
+        location.href = '../login.html';
+      }
+    });
+
+    onValue(usersRef, snapshot => {
+      const data = snapshot.val() || {};
+      const total = Object.keys(data).length;
+      document.getElementById('total-users').textContent = total;
+      const list = Object.values(data).slice(-4).reverse().map(u => `<li>${u.nome || 'Usuário'} - ${u.email}</li>`).join('');
+      document.getElementById('user-list').innerHTML = list || "<li>Nenhum usuário</li>";
+    });
+
+    onValue(coursesRef, snapshot => {
+      const data = snapshot.val() || {};
+      const total = Object.keys(data).length;
+      document.getElementById('total-courses').textContent = total;
+      const list = Object.values(data).slice(-4).reverse().map(c => `<li>${c.titulo}</li>`).join('');
+      document.getElementById('course-list').innerHTML = list || "<li>Nenhum curso</li>";
+    });
+
+    onValue(enrollRef, snapshot => {
+      const data = snapshot.val() || {};
+      const total = Object.keys(data).length;
+      document.getElementById('total-enrollments').textContent = total;
+      document.getElementById('earnings').textContent = 'R$' + (total * 10);
+    });
+
+    const ctx = document.getElementById('chart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Cursos', 'Usuários', 'Matrículas'],
+        datasets: [{
+          label: 'Total',
+          data: [0, 0, 0],
+          backgroundColor: ['#c9a3f8', '#a3d0f8', '#f8c9e2']
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true } }
+      }
+    });
+
+    function updateChart() {
+      const chart = Chart.getChart("chart");
+      chart.data.datasets[0].data = [
+        parseInt(document.getElementById('total-courses').textContent),
+        parseInt(document.getElementById('total-users').textContent),
+        parseInt(document.getElementById('total-enrollments').textContent)
+      ];
+      chart.update();
+    }
+
+    setInterval(updateChart, 2000);
+  </script>
+</body>
+</html>
