@@ -1,0 +1,133 @@
+/* Reset e base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+  color: #fff;
+}
+
+body {
+  background-color: #121212;
+  line-height: 1.6;
+  padding: 20px;
+}
+
+.hero {
+  background: linear-gradient(135deg, #ff6f00, #ff3d00);
+  padding: 60px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  color: #fff;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.hero-content p {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+}
+
+.hero-content button {
+  background-color: #fff;
+  color: #ff3d00;
+  border: none;
+  padding: 15px 30px;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.hero-content button:hover {
+  background-color: #ffd180;
+}
+
+.hero-arrow {
+  font-size: 4rem;
+  opacity: 0.3;
+  user-select: none;
+}
+
+.section {
+  margin-bottom: 40px;
+}
+
+.section h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
+  gap: 20px;
+}
+
+.card {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 20px;
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+}
+
+.card h3 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.card p {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  color: #ccc;
+}
+
+.card a {
+  color: #ff6f00;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.card a:hover {
+  text-decoration: underline;
+}
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
+  gap: 15px;
+}
+
+.category {
+  background-color: #1e1e1e;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  font-size: 2.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.category p {
+  margin-top: 10px;
+  font-size: 1rem;
+  color: #ccc;
+}
+
+.category:hover {
+  background-color: #ff3d00;
+  color: #fff;
+}
