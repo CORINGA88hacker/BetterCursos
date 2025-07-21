@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Painel Admin - Cursos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-content">
+      <h1>Painel Admin</h1>
+      <p>Gerencie cursos e aulas aqui</p>
+    </div>
+  </header>
+
+  <section class="section">
+    <h2>Adicionar Curso</h2>
+    <form id="curso-form">
+      <input type="text" id="curso-nome" placeholder="Nome do curso" required />
+      <input type="text" id="curso-descricao" placeholder="Descrição do curso" required />
+      <input type="text" id="curso-imagem" placeholder="URL da imagem do curso" required />
+      <button type="submit">Adicionar Curso</button>
+    </form>
+  </section>
+
+  <section class="section">
+    <h2>Adicionar Aula</h2>
+    <form id="aula-form">
+      <select id="select-curso" required>
+        <option value="">Selecione o curso</option>
+      </select>
+      <input type="text" id="aula-titulo" placeholder="Título da aula" required />
+      <input type="url" id="aula-pdf" placeholder="Link do PDF da aula" required />
+      <button type="submit">Adicionar Aula</button>
+    </form>
+  </section>
+
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+  <script src="firebase.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+</html>
